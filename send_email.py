@@ -2,6 +2,15 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
+import random
+
+msgs = [
+  "注意力转移会有残留，保持长时间制作一件事情，减少耗能，不看无关的事情，看手机刷视频非常的累的",   
+  "侵入性的思维，无关紧要的事情，可以先写下来，或者不理他，他不会影响你当前的状态",
+   "无用的时间可以思考有用的事情，任何时间都可以利用起来，比如听无聊的讲座的时候，走路的时候等等，还记得冯卡门吗",
+   "你在别人的眼中并没有那么重要，不要去过度的考虑别人，揣测别人的想法，你的生活是你自己的，不是别人的",
+]
+
 
 def send_email():
     # 获取环境变量
@@ -12,8 +21,10 @@ def send_email():
     recipient_email = os.getenv('RECIPIENT_EMAIL')
 
     # 创建邮件内容
-    subject = '每小时定时邮件'
-    body = '这是一个测试每小时发送的邮件内容。'
+    subject = random.choice(msgs)
+    # 随机
+    
+    body = random.choice(msgs)
     
     # 创建邮件对象
     msg = MIMEMultipart()
