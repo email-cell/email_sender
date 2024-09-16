@@ -1,0 +1,33 @@
+name: Send Email Scheduled and Manually
+
+on:
+  # 支持手动触发工作流
+  workflow_dispatch:
+
+  # 定时任务：每天的8:00到23:00之间每小时运行一次
+  schedule:
+    - cron: '0 8-23 * * *'  # 每天8点到23点之间每小时的第0分钟运行一次
+
+jobs:
+  send_email:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository content
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies and Send Email
+      run: |
+        npm install nodemailer
+        node send-email.js
+      env:
+        SMTP_HOST: ${{ secrets.SMTP_HOST }}         # 从 GitHub Secrets 获取 SMTP 服务器地址
+        SMTP_PORT: ${{ secrets.SMTP_PORT }}         # 从 GitHub Secrets 获取 SMTP 服务器端口
+        SMTP_USER: ${{ secrets.SMTP_USER }}         # 从 GitHub Secrets 获取 SMTP 用户名
+        SMTP_PASS: ${{ secrets.SMTP_PASS }}         # 从 GitHub Secrets 获取 SMTP 密码
+        RECIPIENT: ${{ secrets.RECIPIENT_EMAIL }}   # 从 GitHub Secrets 获取收件人邮箱
